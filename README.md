@@ -2,23 +2,17 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
 
-## Code scaffolding
+## 生成
 
-Run `ng generate component component-name --project logger` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project logger`.
-> Note: Don't forget to add `--project logger` or else it will be added to the default project in your `angular.json` file. 
+在Angular项目的根目录下: ```ng g library @i11cn/logger```
 
 ## Build
 
-Run `ng build logger` to build the project. The build artifacts will be stored in the `dist/` directory.
+在Angular项目的根目录下: ```ng build @i11cn/logger```
 
 ## Publishing
 
-After building your library with `ng build logger`, go to the dist folder `cd dist/logger` and run `npm publish`.
+1. 进入编译后的代码中: ```cd dist/i11cn/logger```
+2. 确保npm已经登录: ```npm whoami```
+3. 发布: ```npm publish --access=public```
 
-## Running unit tests
-
-Run `ng test logger` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
