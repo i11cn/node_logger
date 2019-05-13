@@ -1,0 +1,9 @@
+{
+  "name": "@i11cn/logger",
+  "version": "0.1.0",
+  "author": "i11cn",
+  "description": "暂时专用于Client端的Logger库，支持自定义日志格式，支持输出到Console、HTTP、MQTT等",
+  "peerDependencies": {
+    "date-fns": "^1.30.1"
+  }
+}
