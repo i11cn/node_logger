@@ -14,6 +14,31 @@ npm install @i11cn/logger --save
 2. 配置Logger: ```log.setLevel(...).addAppender(...)...```
 3. 使用: ```log.trace("输出字符串");```
 
+## Sample
+
+```
+import { Loggers, Logger, LogLevel, Console } from '@i11cn/logger';
+
+class Sample {
+
+    constructor() {
+        this.loggers = new Loggers(); // this.loggers 应该是全局的
+        this.logger = this.loggers.getLogger("sample");
+        let con = new Console();
+        con.setLayout("%T %N %L: %M");
+        this.logger.setName("SAMPLE").setLevel(LogLevel.ALL).addAppender(con);
+    }
+
+    ...
+
+    foo() {
+        this.logger.debug("测试日志");
+        this.logger.debug("aa", "bb", "cc");
+    }
+    ...
+}
+```
+
 ## Class Document
 
 ### Loggers
@@ -27,7 +52,7 @@ npm install @i11cn/logger --save
 3. ```off(): Logger;``` 关闭日志，无论任何Level的日志都不会被记录
 4. ```setLevel(number): Logger;``` 设置日志允许记录的最低Level，低于Level的日志被忽略
 5. ```addAppender(Appender): Logger;``` 添加日志输出位置
-6. ```setTimeLayout(string): Logger;``` 设置时间戳的默认格式，如果Appender中没有设置特定格式，则会使用该默认格式
+6. ```setTimeLayout(string): Logger;``` 设置时间戳的默认格式，如果Appender中没有设置特定格式，则会使用该默认格式。由于使用的库是date-fns，因此具体的时间戳格式字符串，参考库date-fns中的说明
 7. ```setSkipCallstack(n: number): Logger;``` 如果要正确获取记录点的函数名，需要跳过的调用层级（考虑到有可能会有封装）
 8. trace、debug、info、log、warning、error、fatal、todo，用来做实际的记录，参数可以接受 字符串、```Map<string, any>```、object、```()=> string```、以及任意数量的any，区别在于字符串、object会直接输出，Map会组织成key=value的字符串输出，```()=> string```会调用该函数产生字符串后输出，任意数量的any类型会以字符串的性质连接起来输出
 
@@ -42,14 +67,24 @@ npm install @i11cn/logger --save
 5. ```protected buildMsg(d: LogData, m: string): string``` 根据Layout、LogData和日志字符串，生成最终需要记录的字符串
 6. ```protected write(msg: string): void``` 负责将最终的字符串做实际输出的操作，如果没有特殊需求，只需要重载该方法即可，如果有特殊需求，就需要重载output（比如有一些类型需要特殊处理）
 
+### About Layout
+
+设置输出日志格式的字符串，其中%是转义字符，转义含义如下：
+
+* %T: 该处将打印时间戳，时间戳的格式也可以自定义，参见class Logger中的setTimeLayout函数
+* %N: 该处将打印Logger的名称，参见class Logger中的setName函数
+* %L: 该处将打印该条日志的级别
+* %f: 该处将打印输出日志的函数
+* %M: 该处输出日志正文
+
 ### Console
 
 输出到浏览器的控制台
 
 ### TODO
 
-增加输出到HTTP和MQTT服务器
-增加输出到ELK
+* 增加输出到HTTP和MQTT服务器
+* 增加输出到ELK
 
 ## 个人记录
 
