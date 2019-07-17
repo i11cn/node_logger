@@ -2,17 +2,16 @@ import { Logger } from './logger';
 import { LoggerImpl } from './logger-impl';
 
 export class Loggers {
-	private loggers: Map<string, Logger>;
+	private static readonly loggers: Map<string, Logger> = new Map<string, Logger>();
 
-    constructor() {
-		this.loggers = new Map<string, Logger>();
+    private constructor() {
 	}
 
-	getLogger(name: string): Logger {
-		if(!this.loggers.has(name)) {
+	static getLogger(name: string): Logger {
+		if(!Loggers.loggers.has(name)) {
 			let logger = new LoggerImpl(name);
-			this.loggers.set(name, logger);
+			Loggers.loggers.set(name, logger);
 		}
-		return this.loggers.get(name);
+		return Loggers.loggers.get(name);
 	}
 }

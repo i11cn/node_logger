@@ -4,13 +4,15 @@ import { LogData } from './loginfo';
 export abstract class Appender {
 
     protected layout: string;
-    protected ts_layout: string;
-    private getter: ((LogData, string)=>string)[];
+    protected ts_layout?: string;
+    private getter: ((LogData, string)=>string)[] = [];
 
-    constructor() {
-        this.layout = null;
-        this.ts_layout = null;
-        this.getter = [];
+    constructor(layout?: string) {
+        if(layout === undefined) {
+            layout = "[%T] [%N] [%L] : %M";
+        }
+        this.layout = layout;
+        this.parseLayout();
     }
 
     private parseLayout(): void {
@@ -106,7 +108,7 @@ export abstract class Appender {
 
     protected buildMsg(d: LogData, m: string): string {
         let ret = ""
-        if(this.ts_layout != null) {
+        if(this.ts_layout !== undefined) {
             d.ts_layout = this.ts_layout;
         }
         for(let index in this.getter) {
@@ -119,9 +121,9 @@ export abstract class Appender {
     output(d: LogData, obj: Map<string, any>): void;
     output(d: LogData, obj: object): void;
     output(d: LogData, obj): void {
-        if(typeof obj == "string") {
+        if(typeof obj === "string") {
             this.write(this.buildMsg(d, obj));
-        } else if(typeof obj == "object") {
+        } else if(typeof obj === "object") {
             if(obj instanceof Array) {
                 let msg = obj.join("");
                 this.write(this.buildMsg(d, msg));

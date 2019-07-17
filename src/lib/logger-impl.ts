@@ -87,11 +87,11 @@ export class LoggerImpl {
             for(let a of this.appenders) {
                 a.output(this.data, msg);
             }
-        } else if(typeof obj == "string" || typeof obj == "object") {
+        } else if(typeof obj === "string" || typeof obj === "object") {
             for(let a of this.appenders) {
                 a.output(this.data, obj);
             }
-        } else if(typeof obj == "function") {
+        } else if(typeof obj === "function") {
             let fn = <()=>string>(obj);
             let msg = fn();
             for(let a of this.appenders) {

@@ -1,8 +1,8 @@
 import { Appender } from './appender';
 
 export class Console extends Appender {
-    constructor() {
-        super();
+    constructor(layout?: string) {
+        super(layout);
     }
 
     protected write(msg: string): void {
